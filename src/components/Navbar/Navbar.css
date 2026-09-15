@@ -1,98 +1,226 @@
 /* =============================================
    Navbar.css
+   SnapCorner Photography
    ============================================= */
+
+/* ---------------------------------------------
+   Navbar Base
+--------------------------------------------- */
 
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+
+  width: 100%;
   z-index: var(--z-nav);
-  transition: background var(--transition-base), box-shadow var(--transition-base);
+
+  background: transparent;
+
+  transition:
+    background var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
-/* Transparent on hero, opaque after scroll */
+/* Navbar after scrolling */
 .navbar--scrolled {
   background: rgba(255, 255, 255, 0.97);
   box-shadow: 0 1px 0 var(--color-border);
 }
 
-/* ---- Inner layout: logo centred, links flanking ---- */
+/* Solid navbar on pages such as Portfolio */
+.navbar--solid {
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+
+/* ---------------------------------------------
+   Inner Layout
+--------------------------------------------- */
+
 .navbar__inner {
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;
-  padding: 0 var(--sp-8);
+
+  width: 100%;
   max-width: 1400px;
+  height: 80px;
+
   margin: 0 auto;
+  padding: 0 var(--sp-8);
 }
 
-/* ---- Logo ---- */
+
+/* ---------------------------------------------
+   Logo
+   Centered on Desktop
+--------------------------------------------- */
+
 .navbar__logo {
   position: absolute;
+
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+
+  transform: translate(-50%, -50%);
+
   display: flex;
   align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  z-index: calc(var(--z-nav) + 2);
 }
 
-.navbar__logo img {
-  width: 64px;
-  height: 64px;
-  object-fit: contain;
-  transition: opacity var(--transition-base);
+/* Logo text */
+
+.navbar__logo-text {
+  font-family: var(--font-display);
+
+  font-size: 1.8rem;
+  font-weight: 400;
+
+  line-height: 1;
+
+  letter-spacing: 0.05em;
+
+  color: var(--color-white);
+
+  white-space: nowrap;
+
+  transition:
+    color var(--transition-base),
+    opacity var(--transition-base);
 }
 
-.navbar__logo:hover img {
+/* Logo hover */
+
+.navbar__logo:hover .navbar__logo-text {
   opacity: 0.8;
 }
 
-/* ---- Desktop nav link groups ---- */
+/* Logo after scroll */
+
+.navbar--scrolled .navbar__logo-text,
+.navbar--solid .navbar__logo-text {
+  color: var(--color-dark);
+}
+
+
+/* ---------------------------------------------
+   Logo Decorative Rules
+--------------------------------------------- */
+
+.navbar__logo-rule {
+  display: block;
+
+  width: 18px;
+  height: 1px;
+
+  margin: 0 10px;
+
+  background: currentColor;
+
+  opacity: 0.6;
+}
+
+
+/* ---------------------------------------------
+   Desktop Navigation
+--------------------------------------------- */
+
 .navbar__links {
   display: flex;
   align-items: center;
+
   gap: var(--sp-8);
 }
+
+/* Left navigation */
 
 .navbar__links--left {
   margin-right: auto;
 }
 
+/* Right navigation */
+
 .navbar__links--right {
   margin-left: auto;
 }
 
+
+/* ---------------------------------------------
+   Navigation Links
+--------------------------------------------- */
+
 .navbar__link {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+
+  padding: 0;
+
   font-family: var(--font-ui);
+
   font-size: var(--fs-xs);
   font-weight: 600;
+
+  line-height: 1;
+
   letter-spacing: 0.16em;
+
   text-transform: uppercase;
+
   color: var(--color-white);
+
   background: none;
   border: none;
-  padding: 0;
+
+  text-decoration: none;
+
   cursor: pointer;
-  position: relative;
-  transition: color var(--transition-base);
+
   white-space: nowrap;
+
+  transition:
+    color var(--transition-base),
+    opacity var(--transition-base);
 }
 
-/* After scroll — dark text */
-.navbar--scrolled .navbar__link {
+/* Dark navigation when scrolled */
+
+.navbar--scrolled .navbar__link,
+.navbar--solid .navbar__link {
   color: var(--color-dark);
 }
 
-/* Underline hover */
+
+/* ---------------------------------------------
+   Navigation Hover Underline
+--------------------------------------------- */
+
 .navbar__link::after {
-  content: '';
+  content: "";
+
   position: absolute;
-  bottom: -3px;
+
   left: 0;
+  bottom: -6px;
+
   width: 0;
   height: 1px;
+
   background: currentColor;
+
   transition: width var(--transition-base);
 }
 
@@ -101,225 +229,10 @@
   width: 100%;
 }
 
-/* Dropdown trigger */
-.navbar__link--dropdown-trigger {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-1);
-}
 
-.navbar__dropdown-caret {
-  font-size: 0.6em;
-  transition: transform var(--transition-base);
-  display: inline-block;
-}
-
-.navbar__dropdown-wrapper--open .navbar__dropdown-caret {
-  transform: rotate(180deg);
-}
-
-/* ---- Dropdown menu ---- */
-.navbar__dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%) translateY(-6px);
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  min-width: 200px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--transition-base), transform var(--transition-base);
-  z-index: var(--z-overlay);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-}
-
-.navbar__dropdown-wrapper {
-  position: relative;
-}
-
-.navbar__dropdown-wrapper--open .navbar__dropdown {
-  opacity: 1;
-  pointer-events: all;
-  transform: translateX(-50%) translateY(0);
-}
-
-.navbar__dropdown-item {
-  display: block;
-  padding: var(--sp-3) var(--sp-5);
-  font-family: var(--font-ui);
-  font-size: var(--fs-xs);
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-dark);
-  transition: background var(--transition-fast), color var(--transition-fast);
-}
-
-.navbar__dropdown-item:hover {
-  background: var(--color-off-white);
-  color: var(--color-gold);
-}
-
-/* ---- Hamburger (hidden on desktop) ---- */
-.navbar__hamburger {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 16px;
-  padding: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  z-index: calc(var(--z-nav) + 1);
-}
-
-.navbar__hamburger-bar {
-  display: block;
-  width: 100%;
-  height: 1.5px;
-  background: var(--color-white);
-  transition: transform var(--transition-base), opacity var(--transition-base), background var(--transition-base);
-  transform-origin: center;
-}
-
-.navbar--scrolled .navbar__hamburger-bar,
-.navbar--open .navbar__hamburger-bar {
-  background: var(--color-dark);
-}
-
-/* Animated X on open */
-.navbar__hamburger--open .navbar__hamburger-bar:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-
-.navbar__hamburger--open .navbar__hamburger-bar:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-
-.navbar__hamburger--open .navbar__hamburger-bar:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
-/* ---- Mobile menu overlay ---- */
-.navbar__mobile-menu {
-  position: fixed;
-  inset: 0;
-  background: var(--color-white);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--transition-slow);
-  z-index: var(--z-nav);
-}
-
-.navbar__mobile-menu--open {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.navbar__mobile-nav {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--sp-6);
-  width: 100%;
-  max-width: 300px;
-}
-
-.navbar__mobile-link {
-  font-family: var(--font-ui);
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--color-dark);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  width: 100%;
-  text-align: center;
-  transition: color var(--transition-base);
-  list-style: none;
-}
-
-.navbar__mobile-link:hover {
-  color: var(--color-gold);
-}
-
-/* Mobile dropdown (details/summary) */
-.navbar__mobile-dropdown {
-  width: 100%;
-  text-align: center;
-}
-
-.navbar__mobile-dropdown summary {
-  list-style: none;
-}
-
-.navbar__mobile-dropdown summary::-webkit-details-marker {
-  display: none;
-}
-
-.navbar__mobile-sub {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  margin-top: var(--sp-4);
-  padding: var(--sp-4);
-  border: 1px solid var(--color-border);
-}
-
-.navbar__mobile-sublink {
-  font-family: var(--font-ui);
-  font-size: var(--fs-xs);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-mid-gray);
-  transition: color var(--transition-base);
-}
-
-.navbar__mobile-sublink:hover {
-  color: var(--color-gold);
-}
-
-/* ---- Responsive breakpoints ---- */
-@media (max-width: 900px) {
-  .navbar__links {
-    display: none;
-  }
-
-  .navbar__hamburger {
-    display: flex;
-  }
-
-  .navbar__logo {
-    position: static;
-    transform: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .navbar__inner {
-    padding: 0 var(--sp-5);
-    height: 68px;
-  }
-}
-.navbar--solid {
-  background: rgba(255,255,255,.98);
-  box-shadow: 0 1px 0 rgba(0,0,0,.08);
-}
-
-.navbar--solid .navbar__link {
-  color: var(--color-dark);
-}
+/* ---------------------------------------------
+   Active Link
+--------------------------------------------- */
 
 .navbar__link--active {
   color: var(--color-gold) !important;
@@ -328,35 +241,727 @@
 .navbar__link--active::after {
   width: 100%;
 }
-.navbar__logo {
-  text-decoration: none;
-  display: flex;
+
+
+/* ---------------------------------------------
+   Portfolio Dropdown Trigger
+--------------------------------------------- */
+
+.navbar__link--dropdown-trigger {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+
+  gap: var(--sp-1);
 }
 
-.navbar__logo-text {
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  font-weight: 400;
+
+/* Dropdown wrapper */
+
+.navbar__dropdown-wrapper {
+  position: relative;
+}
+
+
+/* ---------------------------------------------
+   Dropdown Caret
+--------------------------------------------- */
+
+.navbar__dropdown-caret {
+  display: inline-block;
+
+  font-size: 0.65em;
+
+  line-height: 1;
+
+  transition: transform var(--transition-base);
+}
+
+.navbar__dropdown-wrapper--open .navbar__dropdown-caret {
+  transform: rotate(180deg);
+}
+
+
+/* ---------------------------------------------
+   Portfolio Mega Menu
+--------------------------------------------- */
+
+.navbar__mega {
+  position: absolute;
+
+  top: calc(100% + 18px);
+  left: 50%;
+
+  transform: translateX(-50%) translateY(-8px);
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(190px, 1fr));
+
+  gap: 36px;
+
+  min-width: 470px;
+
+  padding: 28px 30px;
+
+  background: var(--color-white);
+
+  border: 1px solid var(--color-border);
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.10);
+
+  opacity: 0;
+
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity var(--transition-base),
+    transform var(--transition-base),
+    visibility var(--transition-base);
+
+  z-index: var(--z-overlay);
+}
+
+
+/* Small top line */
+
+.navbar__mega::before {
+  content: "";
+
+  position: absolute;
+
+  top: -7px;
+  left: 50%;
+
+  width: 12px;
+  height: 12px;
+
+  background: var(--color-white);
+
+  border-left: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border);
+
+  transform: translateX(-50%) rotate(45deg);
+}
+
+
+/* Open mega menu */
+
+.navbar__dropdown-wrapper--open .navbar__mega {
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+
+  transform: translateX(-50%) translateY(0);
+}
+
+
+/* ---------------------------------------------
+   Mega Menu Columns
+--------------------------------------------- */
+
+.navbar__mega-col {
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+
+/* Category heading */
+
+.navbar__mega-eyebrow {
+  display: block;
+
+  font-family: var(--font-ui);
+
+  font-size: 0.65rem;
+  font-weight: 700;
+
+  line-height: 1.4;
+
+  letter-spacing: 0.18em;
+
+  text-transform: uppercase;
+
+  color: var(--color-gold);
+}
+
+
+/* Mega menu list */
+
+.navbar__mega-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+
+/* ---------------------------------------------
+   Dropdown Items
+--------------------------------------------- */
+
+.navbar__dropdown-item {
+  position: relative;
+
+  display: block;
+
+  padding: 9px 0;
+
+  font-family: var(--font-ui);
+
+  font-size: var(--fs-xs);
+  font-weight: 500;
+
+  line-height: 1.4;
+
+  letter-spacing: 0.10em;
+
+  text-transform: uppercase;
+
+  color: var(--color-dark);
+
+  text-decoration: none;
+
+  transition:
+    color var(--transition-fast),
+    padding-left var(--transition-fast);
+}
+
+
+/* Dropdown item hover */
+
+.navbar__dropdown-item:hover {
+  color: var(--color-gold);
+
+  padding-left: 6px;
+}
+
+
+/* ---------------------------------------------
+   CTA / Enquire
+--------------------------------------------- */
+
+.navbar__link--cta {
+  padding: 10px 18px;
+
+  border: 1px solid currentColor;
+
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.navbar__link--cta::after {
+  display: none;
+}
+
+.navbar__link--cta:hover {
+  color: var(--color-dark);
+
+  background: var(--color-white);
+
+  border-color: var(--color-white);
+}
+
+
+/* Solid/scrolled CTA */
+
+.navbar--scrolled .navbar__link--cta:hover,
+.navbar--solid .navbar__link--cta:hover {
   color: var(--color-white);
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-  transition: opacity 0.3s ease;
-}
 
-.navbar__logo-text:hover {
-  opacity: 0.8;
-}
+  background: var(--color-dark);
 
-.navbar--scrolled .navbar__logo-text,
-.navbar--solid .navbar__logo-text {
-color: var(--color-dark);
+  border-color: var(--color-dark);
 }
 
 
-@media (max-width: 768px) {
+/* ---------------------------------------------
+   Hamburger
+--------------------------------------------- */
+
+.navbar__hamburger {
+  display: none;
+
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 26px;
+  height: 18px;
+
+  padding: 0;
+
+  background: none;
+  border: none;
+
+  cursor: pointer;
+
+  z-index: calc(var(--z-nav) + 5);
+}
+
+
+/* Hamburger bars */
+
+.navbar__hamburger-bar {
+  display: block;
+
+  width: 100%;
+  height: 1.5px;
+
+  background: var(--color-white);
+
+  transform-origin: center;
+
+  transition:
+    transform var(--transition-base),
+    opacity var(--transition-base),
+    background var(--transition-base);
+}
+
+
+/* Dark hamburger after scroll */
+
+.navbar--scrolled .navbar__hamburger-bar,
+.navbar--solid .navbar__hamburger-bar,
+.navbar--open .navbar__hamburger-bar {
+  background: var(--color-dark);
+}
+
+
+/* ---------------------------------------------
+   Hamburger X Animation
+--------------------------------------------- */
+
+.navbar__hamburger--open
+.navbar__hamburger-bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.navbar__hamburger--open
+.navbar__hamburger-bar:nth-child(2) {
+  opacity: 0;
+
+  transform: scaleX(0);
+}
+
+.navbar__hamburger--open
+.navbar__hamburger-bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+
+/* ---------------------------------------------
+   Mobile Menu Overlay
+--------------------------------------------- */
+
+.navbar__mobile-menu {
+  position: fixed;
+
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100vh;
+
+  padding: 100px 24px 40px;
+
+  background: var(--color-white);
+
+  opacity: 0;
+
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity var(--transition-slow),
+    visibility var(--transition-slow);
+
+  z-index: calc(var(--z-nav) + 3);
+}
+
+
+/* Mobile menu open */
+
+.navbar__mobile-menu--open {
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+}
+
+
+/* ---------------------------------------------
+   Mobile Navigation
+--------------------------------------------- */
+
+.navbar__mobile-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: var(--sp-6);
+
+  width: 100%;
+  max-width: 320px;
+
+  overflow-y: auto;
+}
+
+
+/* ---------------------------------------------
+   Mobile Links
+--------------------------------------------- */
+
+.navbar__mobile-link {
+  width: 100%;
+
+  padding: 0;
+
+  font-family: var(--font-ui);
+
+  font-size: var(--fs-xs);
+  font-weight: 600;
+
+  line-height: 1.5;
+
+  letter-spacing: 0.20em;
+
+  text-align: center;
+
+  text-transform: uppercase;
+
+  color: var(--color-dark);
+
+  background: none;
+  border: none;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition: color var(--transition-base);
+}
+
+.navbar__mobile-link:hover {
+  color: var(--color-gold);
+}
+
+
+/* ---------------------------------------------
+   Mobile Portfolio Dropdown
+--------------------------------------------- */
+
+.navbar__mobile-dropdown {
+  width: 100%;
+
+  text-align: center;
+}
+
+
+/* Remove default details marker */
+
+.navbar__mobile-dropdown summary {
+  list-style: none;
+
+  cursor: pointer;
+}
+
+.navbar__mobile-dropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+
+/* Mobile caret */
+
+.navbar__mobile-caret {
+  display: inline-block;
+
+  margin-left: 5px;
+
+  font-size: 0.65em;
+
+  transition: transform var(--transition-base);
+}
+
+.navbar__mobile-dropdown[open]
+.navbar__mobile-caret {
+  transform: rotate(180deg);
+}
+
+
+/* ---------------------------------------------
+   Mobile Portfolio Groups
+--------------------------------------------- */
+
+.navbar__mobile-group {
+  width: 100%;
+
+  margin-top: var(--sp-4);
+}
+
+
+/* Group title */
+
+.navbar__mobile-eyebrow {
+  display: block;
+
+  margin-bottom: var(--sp-3);
+
+  font-family: var(--font-ui);
+
+  font-size: 0.62rem;
+  font-weight: 700;
+
+  letter-spacing: 0.16em;
+
+  text-transform: uppercase;
+
+  color: var(--color-gold);
+}
+
+
+/* ---------------------------------------------
+   Mobile Sub Links
+--------------------------------------------- */
+
+.navbar__mobile-sub {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--sp-3);
+
+  width: 100%;
+
+  margin: 0;
+  padding: var(--sp-4);
+
+  list-style: none;
+
+  border: 1px solid var(--color-border);
+}
+
+
+/* Sub link */
+
+.navbar__mobile-sublink {
+  display: block;
+
+  font-family: var(--font-ui);
+
+  font-size: var(--fs-xs);
+
+  font-weight: 500;
+
+  line-height: 1.4;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  color: var(--color-mid-gray);
+
+  text-decoration: none;
+
+  transition: color var(--transition-base);
+}
+
+.navbar__mobile-sublink:hover {
+  color: var(--color-gold);
+}
+
+
+/* ---------------------------------------------
+   Mobile CTA
+--------------------------------------------- */
+
+.navbar__mobile-link--cta {
+  width: auto;
+
+  padding: 12px 24px;
+
+  border: 1px solid var(--color-dark);
+}
+
+
+/* ---------------------------------------------
+   Tablet
+--------------------------------------------- */
+
+@media (max-width: 1000px) {
+
+  .navbar__inner {
+    padding: 0 var(--sp-6);
+  }
+
+  .navbar__links {
+    gap: var(--sp-5);
+  }
+
+  .navbar__mega {
+    min-width: 430px;
+
+    gap: 26px;
+
+    padding: 24px;
+  }
+
+}
+
+
+/* ---------------------------------------------
+   Mobile
+--------------------------------------------- */
+
+@media (max-width: 900px) {
+
+  /* Hide desktop navigation */
+
+  .navbar__links {
+    display: none;
+  }
+
+
+  /* Mobile hamburger */
+
+  .navbar__hamburger {
+    display: flex;
+  }
+
+
+  /* Mobile logo */
+
+  .navbar__logo {
+    position: static;
+
+    transform: none;
+
+    margin: 0 auto;
+  }
+
+
+  /* Logo remains centered */
+
+  .navbar__inner {
+    position: relative;
+
+    justify-content: center;
+  }
+
+
+  /* Hamburger position */
+
+  .navbar__hamburger {
+    position: absolute;
+
+    right: var(--sp-6);
+
+    top: 50%;
+
+    transform: translateY(-50%);
+  }
+
+
+  /* Hide decorative logo lines on mobile */
+
+  .navbar__logo-rule {
+    display: none;
+  }
+
+}
+
+
+/* ---------------------------------------------
+   Small Mobile
+--------------------------------------------- */
+
+@media (max-width: 480px) {
+
+  .navbar__inner {
+    height: 68px;
+
+    padding: 0 var(--sp-5);
+  }
+
+
   .navbar__logo-text {
     font-size: 1.2rem;
+
+    letter-spacing: 0.04em;
   }
+
+
+  .navbar__hamburger {
+    right: var(--sp-5);
+
+    width: 24px;
+    height: 16px;
+  }
+
+
+  .navbar__mobile-menu {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+
+  .navbar__mobile-nav {
+    gap: var(--sp-5);
+
+    max-width: 280px;
+  }
+
+
+  .navbar__mobile-link {
+    font-size: 0.68rem;
+
+    letter-spacing: 0.16em;
+  }
+
+}
+
+
+/* ---------------------------------------------
+   Accessibility
+--------------------------------------------- */
+
+.navbar__link:focus-visible,
+.navbar__logo:focus-visible,
+.navbar__hamburger:focus-visible,
+.navbar__dropdown-item:focus-visible,
+.navbar__mobile-link:focus-visible,
+.navbar__mobile-sublink:focus-visible {
+  outline: 2px solid var(--color-gold);
+
+  outline-offset: 5px;
+}
+
+
+/* ---------------------------------------------
+   Reduced Motion
+--------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .navbar,
+  .navbar *,
+  .navbar__mobile-menu {
+    transition: none !important;
+  }
+
 }
