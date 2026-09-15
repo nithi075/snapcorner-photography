@@ -1,8 +1,8 @@
 /* =============================================
    Portfolio — Category filter tabs + photo grid
-   8 categories: Portraits, Pre Weddings,
-   Tamil/Telugu/Brahmin/Christian/Muslim Weddings,
-   Engagement
+   10 categories: All, Wedding, Reception, Pre/Post
+   Wedding, Engagement, Corporate, Birthday,
+   Maternity, Baby Shower
    ============================================= */
 import { useState } from 'react'
 import './Portfolio.css'
@@ -45,35 +45,19 @@ const categories = [
   { id: 'babyshower', label: 'Baby Shower' },
 ]
 
+const categoryLabels = Object.fromEntries(categories.map((c) => [c.id, c.label]))
+
 const categoryDescriptions = {
   all: 'Explore our complete collection of weddings, celebrations and special moments.',
-
-  wedding:
-    'Timeless wedding photography capturing emotions, traditions and unforgettable moments.',
-
-  reception:
-    'Elegant reception coverage filled with celebrations, candid moments and grand memories.',
-
-  prewedding:
-    'Creative pre-wedding sessions that beautifully tell your love story.',
-
-  postwedding:
-    'Romantic post-wedding portraits captured without the rush of the wedding day.',
-
-  engagement:
-    'Memorable engagement photography celebrating the beginning of a beautiful journey.',
-
-  corporate:
-    'Professional corporate event photography for conferences, launches and business gatherings.',
-
-  birthday:
-    'Fun and vibrant birthday photography capturing every joyful celebration.',
-
-  maternity:
-    'Beautiful maternity portraits celebrating motherhood and new beginnings.',
-
-  babyshower:
-    'Heartwarming baby shower photography filled with love, laughter and family moments.'
+  wedding: 'Timeless wedding photography capturing emotions, traditions and unforgettable moments.',
+  reception: 'Elegant reception coverage filled with celebrations, candid moments and grand memories.',
+  prewedding: 'Creative pre-wedding sessions that beautifully tell your love story.',
+  postwedding: 'Romantic post-wedding portraits captured without the rush of the wedding day.',
+  engagement: 'Memorable engagement photography celebrating the beginning of a beautiful journey.',
+  corporate: 'Professional corporate event photography for conferences, launches and business gatherings.',
+  birthday: 'Fun and vibrant birthday photography capturing every joyful celebration.',
+  maternity: 'Beautiful maternity portraits celebrating motherhood and new beginnings.',
+  babyshower: 'Heartwarming baby shower photography filled with love, laughter and family moments.',
 }
 
 const portfolioItems = [
@@ -109,21 +93,25 @@ const portfolioItems = [
 ]
 
 export default function Portfolio() {
-  const [active,   setActive]   = useState('all')
+  const [active, setActive] = useState('all')
   const [lightbox, setLightbox] = useState(null)
 
   const filtered = active === 'all'
     ? portfolioItems
-    : portfolioItems.filter(p => p.cat === active)
+    : portfolioItems.filter((p) => p.cat === active)
 
-  const openLightbox  = (item) => setLightbox(item)
-  const closeLightbox = ()     => setLightbox(null)
+  const openLightbox = (item) => setLightbox(item)
+  const closeLightbox = () => setLightbox(null)
+
+  const activeList = active === 'all' ? portfolioItems : portfolioItems.filter((p) => p.cat === active)
+  const currentIndex = lightbox ? activeList.findIndex((p) => p.id === lightbox.id) : -1
 
   const navigate = (dir) => {
-    const list = active === 'all' ? portfolioItems : portfolioItems.filter(p => p.cat === active)
-    const idx  = list.findIndex(p => p.id === lightbox.id)
-    setLightbox(list[(idx + dir + list.length) % list.length])
+    setLightbox(activeList[(currentIndex + dir + activeList.length) % activeList.length])
   }
+
+  /* Category label makes a readable, accurate alt/aria string per photo */
+  const describeItem = (item) => `${categoryLabels[item.cat]} photography`
 
   return (
     <section className="portfolio" id="portfolio" aria-labelledby="portfolio-heading">
@@ -139,7 +127,7 @@ export default function Portfolio() {
 
       {/* ---- Filter tabs ---- */}
       <div className="portfolio__filters" role="tablist" aria-label="Portfolio categories">
-        {categories.map(cat => (
+        {categories.map((cat) => (
           <button
             key={cat.id}
             className={`portfolio__filter-btn${active === cat.id ? ' portfolio__filter-btn--active' : ''}`}
@@ -151,34 +139,35 @@ export default function Portfolio() {
           </button>
         ))}
       </div>
-      <div className="portfolio__category-info">
 
-  <p>{categoryDescriptions[active]}</p>
-</div>
+      <div className="portfolio__category-info">
+        <p>{categoryDescriptions[active]}</p>
+      </div>
 
       {/* ---- Photo grid ---- */}
       <div className="portfolio__grid" key={active}>
-  {filtered.map((item, i) => (
-    <button
-      key={item.id}
-      className="portfolio__item"
-      style={{ animationDelay: `${i * 40}ms` }}
-      onClick={() => openLightbox(item)}
-      aria-label={item.alt}
-    >
-      <img
-        src={item.src}
-        alt={item.alt}
-        loading="lazy"
-        className="portfolio__img"
-      />
+        {filtered.map((item, i) => (
+          <button
+            key={item.id}
+            className="portfolio__item"
+            style={{ animationDelay: `${i * 40}ms` }}
+            onClick={() => openLightbox(item)}
+            aria-label={`View ${describeItem(item)}`}
+          >
+            <img
+              src={item.src}
+              alt={describeItem(item)}
+              loading="lazy"
+              className="portfolio__img"
+            />
 
-      <div className="portfolio__overlay">
-        <span className="portfolio__overlay-icon">+</span>
+            <div className="portfolio__overlay">
+              <span className="portfolio__overlay-icon">+</span>
+            </div>
+          </button>
+        ))}
       </div>
-    </button>
-  ))}
-</div>
+
       {/* ---- Lightbox ---- */}
       {lightbox && (
         <div
@@ -186,24 +175,35 @@ export default function Portfolio() {
           role="dialog"
           aria-modal="true"
           onClick={closeLightbox}
-          onKeyDown={e => {
-            if (e.key === 'Escape')     closeLightbox()
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') closeLightbox()
             if (e.key === 'ArrowRight') navigate(1)
-            if (e.key === 'ArrowLeft')  navigate(-1)
+            if (e.key === 'ArrowLeft') navigate(-1)
           }}
           tabIndex={-1}
         >
           <button className="portfolio__lb-close" onClick={closeLightbox} aria-label="Close">✕</button>
+
+          <span className="portfolio__lb-counter">
+            {currentIndex + 1} / {activeList.length}
+          </span>
+
           <img
             src={lightbox.src}
-            alt={lightbox.alt}
+            alt={describeItem(lightbox)}
             className="portfolio__lb-img"
-            onClick={e => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
           />
-          <button className="portfolio__lb-nav portfolio__lb-nav--prev"
-            onClick={e => { e.stopPropagation(); navigate(-1) }} aria-label="Previous">‹</button>
-          <button className="portfolio__lb-nav portfolio__lb-nav--next"
-            onClick={e => { e.stopPropagation(); navigate(1) }}  aria-label="Next">›</button>
+          <button
+            className="portfolio__lb-nav portfolio__lb-nav--prev"
+            onClick={(e) => { e.stopPropagation(); navigate(-1) }}
+            aria-label="Previous"
+          >‹</button>
+          <button
+            className="portfolio__lb-nav portfolio__lb-nav--next"
+            onClick={(e) => { e.stopPropagation(); navigate(1) }}
+            aria-label="Next"
+          >›</button>
         </div>
       )}
     </section>

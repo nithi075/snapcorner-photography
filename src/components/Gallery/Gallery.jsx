@@ -1,6 +1,6 @@
 /* =============================================
    Gallery — "Selected Works" masonry grid
-   21 photos, hover overlay, lightbox-style zoom
+   22 photos, hover overlay, lightbox-style zoom
    ============================================= */
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -59,17 +59,17 @@ export default function Gallery() {
   const openLightbox = (photo) => setLightbox(photo)
   const closeLightbox = () => setLightbox(null)
 
+  const currentIndex = lightbox ? photos.findIndex((p) => p.id === lightbox.id) : -1
+
   /* Keyboard: Escape closes, arrows navigate */
   const handleKeyDown = (e) => {
     if (!lightbox) return
     if (e.key === 'Escape') {
       closeLightbox()
     } else if (e.key === 'ArrowRight') {
-      const idx = photos.findIndex(p => p.id === lightbox.id)
-      setLightbox(photos[(idx + 1) % photos.length])
+      setLightbox(photos[(currentIndex + 1) % photos.length])
     } else if (e.key === 'ArrowLeft') {
-      const idx = photos.findIndex(p => p.id === lightbox.id)
-      setLightbox(photos[(idx - 1 + photos.length) % photos.length])
+      setLightbox(photos[(currentIndex - 1 + photos.length) % photos.length])
     }
   }
 
@@ -101,11 +101,11 @@ export default function Gallery() {
         ))}
       </div>
 
-    <div className="gallery__footer">
-  <Link to="/portfolio" className="btn">
-    View Portfolio
-  </Link>
-</div>
+      <div className="gallery__footer">
+        <Link to="/portfolio" className="btn">
+          View Portfolio
+        </Link>
+      </div>
 
       {/* Lightbox */}
       {lightbox && (
@@ -125,19 +125,24 @@ export default function Gallery() {
           >
             ✕
           </button>
+
+          <span className="gallery__lightbox-counter">
+            {currentIndex + 1} / {photos.length}
+          </span>
+
           <img
             src={lightbox.src}
             alt={lightbox.alt}
             className="gallery__lightbox-img"
             onClick={(e) => e.stopPropagation()}
           />
+
           {/* Prev / Next */}
           <button
             className="gallery__lightbox-nav gallery__lightbox-nav--prev"
             onClick={(e) => {
               e.stopPropagation()
-              const idx = photos.findIndex(p => p.id === lightbox.id)
-              setLightbox(photos[(idx - 1 + photos.length) % photos.length])
+              setLightbox(photos[(currentIndex - 1 + photos.length) % photos.length])
             }}
             aria-label="Previous photo"
           >‹</button>
@@ -145,8 +150,7 @@ export default function Gallery() {
             className="gallery__lightbox-nav gallery__lightbox-nav--next"
             onClick={(e) => {
               e.stopPropagation()
-              const idx = photos.findIndex(p => p.id === lightbox.id)
-              setLightbox(photos[(idx + 1) % photos.length])
+              setLightbox(photos[(currentIndex + 1) % photos.length])
             }}
             aria-label="Next photo"
           >›</button>

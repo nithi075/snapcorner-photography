@@ -1,54 +1,51 @@
-/* =============================================
-   Testimonials — 3 rotating sets of 3 reviews
-   ============================================= */
 import { useState } from 'react'
 import './Testimonials.css'
 
 const testimonials = [
   {
     id: 1,
-    body: 'Thank you zerowatts to capture best moments of our wedding & reception. We loved the pre-wedding shoots and the tradition pictures. It was amazing working with you. Team of photographers are very flexible to work with. Great effort on end to end follow up to make sure we received albums.',
-    couple: 'Theebica + Purushoth',
+    body: 'SnapCorner Photography captured every beautiful moment of our wedding so naturally. From the candid photographs to the traditional shots, everything felt genuine and beautifully preserved. We absolutely loved the final memories.',
+    couple: 'Happy Couple',
   },
   {
     id: 2,
-    body: 'We had the pleasure of working with Zerowatts Photography for our engagement, reception, and wedding events in May 2024, and we couldn\'t be happier with the results! From start to finish, their team demonstrated incredible professionalism and creativity.',
-    couple: 'Jeevitha + Pawan',
+    body: 'We had a wonderful experience with the SnapCorner team. They were friendly, professional, and made us feel completely comfortable throughout the shoot. The photographs turned out beautiful and exceeded our expectations.',
+    couple: 'Wedding Couple',
   },
   {
     id: 3,
-    body: 'We have booked Zerowatts for engagement, pre-wedding shoot, reception and wedding. They did a wonderful job and made us feel really comfortable. Overall experience with them all as topnotch! Would really love to work with them again.',
-    couple: 'Pratibha + Ashwanth',
+    body: 'Our pre-wedding and wedding photographs were captured beautifully. The team understood exactly what we wanted and managed to capture all the little emotions and details that made our day special.',
+    couple: 'Happy Couple',
   },
   {
     id: 4,
-    body: 'Had pleased experience with zero Watts photography right from the pre-wedding photoshoot till the wedding events! Great teamwork and the crew members were super friendly and talented! The album and photos quality came out beautifully! Thank you team.',
-    couple: 'Pooja + Raveen',
+    body: 'The entire photography experience was smooth and enjoyable. The team was patient, creative, and always ready to capture the perfect frame. Looking through the photos brought back all the emotions of our special day.',
+    couple: 'Newlyweds',
   },
   {
     id: 5,
-    body: 'I want to personally thank Zero Watts for their incredible effort in capturing every beautiful moment of the event. The deliverables were exactly as promised and turned out amazing. It was a pleasure working with them. I would definitely recommend their services to everyone!',
-    couple: 'Divyashree + Narayanan',
+    body: 'From the first conversation to the final delivery, SnapCorner Photography was extremely professional. The candid moments, family photographs, and wedding highlights were captured wonderfully. Highly recommended for couples looking for beautiful memories.',
+    couple: 'Wedding Couple',
   },
   {
     id: 6,
-    body: 'We loved the team, their efforts to get good pictures even when the bride and groom were cranky is highly appreciable. One can see the efforts the team goes through to deliver good quality services. They kept us comfortable throughout the event, Thank you Team ZW.',
-    couple: 'Subathra + Animesh',
+    body: 'We loved how naturally the team captured our emotions. Nothing felt forced, and every photograph tells a story. The final collection was elegant, emotional, and exactly what we hoped for.',
+    couple: 'Happy Couple',
   },
   {
     id: 7,
-    body: 'The candid and traditional photography teams were exceptional, perfectly balancing spontaneous moments with the more classic shots. The videography was just stunning, and every important detail was covered flawlessly. You\'ve helped us relive our big day in the best way possible!',
-    couple: 'Nivya + Manoj',
+    body: 'Our wedding day went by so quickly, but the photographs gave us a way to relive every moment. SnapCorner did an amazing job capturing the smiles, emotions, family moments, and celebrations.',
+    couple: 'Newlyweds',
   },
   {
     id: 8,
-    body: 'Wonderful experience with Zerowatts! From pre-shoot till wedding we had smooth experience. The pictures were well captured and they make amazing viral reels! Highly recommend Zero Watts Photography to anyone seeking a talented and professional photography team!',
-    couple: 'Aishwarya + Rahul',
+    body: 'The pre-wedding shoot was such a fun experience with the SnapCorner team. They guided us throughout the session and helped us feel comfortable in front of the camera. The final photographs were absolutely beautiful.',
+    couple: 'Engaged Couple',
   },
   {
     id: 9,
-    body: 'Great photographers — done outstanding job. We are fully satisfied with photos and videos. Especially wedding teaser was awesome. Professional staff and showed patience throughout event. Praveen followed up regularly until all deliverables are met. Really recommend.',
-    couple: 'Amrin + Saleem Pasha',
+    body: 'Professional team, beautiful photography, and great attention to detail. They captured both the big celebrations and the little emotional moments perfectly. We are extremely happy with our memories and would definitely recommend SnapCorner Photography.',
+    couple: 'Happy Couple',
   },
 ]
 
@@ -61,39 +58,143 @@ const pages = [
 
 export default function Testimonials() {
   const [page, setPage] = useState(0)
+  const [direction, setDirection] = useState('next')
+
+  const goTo = (index, dir) => {
+    setDirection(dir)
+    setPage(index)
+  }
+
+  const handlePrev = () => {
+    goTo(
+      (page - 1 + pages.length) % pages.length,
+      'prev'
+    )
+  }
+
+  const handleNext = () => {
+    goTo(
+      (page + 1) % pages.length,
+      'next'
+    )
+  }
 
   return (
-    <section className="testimonials" aria-labelledby="testimonials-heading">
-      <div className="testimonials__container">
-        <span className="section-label" id="testimonials-heading">Testimonials</span>
+    <section
+      className="testimonials"
+      aria-labelledby="testimonials-heading"
+    >
 
-        <div className="testimonials__grid">
-          {pages[page].map((t) => (
-            <article key={t.id} className="testimonial-card">
-              {/* Quotation mark */}
-              <span className="testimonial-card__quote" aria-hidden="true">"</span>
-              <p className="testimonial-card__body">{t.body}</p>
-              <footer className="testimonial-card__footer">
-                <p className="testimonial-card__couple">{t.couple}</p>
-              </footer>
-            </article>
-          ))}
+      <div className="testimonials__container">
+
+        <span
+          className="section-label"
+          id="testimonials-heading"
+        >
+          What Couples Say
+        </span>
+
+        <h2 className="testimonials__heading">
+          Memories That Speak For Themselves
+        </h2>
+
+
+        <div className="testimonials__row">
+
+          {/* Previous */}
+          <button
+            type="button"
+            className="testimonials__arrow testimonials__arrow--prev"
+            onClick={handlePrev}
+            aria-label="Previous testimonials"
+          >
+            ←
+          </button>
+
+
+          {/* Testimonials */}
+          <div
+            className="testimonials__grid"
+            key={page}
+            data-direction={direction}
+          >
+
+            {pages[page].map((t) => (
+              <article
+                key={t.id}
+                className="testimonial-card"
+              >
+
+                <span
+                  className="testimonial-card__quote"
+                  aria-hidden="true"
+                >
+                  "
+                </span>
+
+                <p className="testimonial-card__body">
+                  {t.body}
+                </p>
+
+                <footer className="testimonial-card__footer">
+
+                  <p className="testimonial-card__couple">
+                    {t.couple}
+                  </p>
+
+                </footer>
+
+              </article>
+            ))}
+
+          </div>
+
+
+          {/* Next */}
+          <button
+            type="button"
+            className="testimonials__arrow testimonials__arrow--next"
+            onClick={handleNext}
+            aria-label="Next testimonials"
+          >
+            →
+          </button>
+
         </div>
 
+
         {/* Page dots */}
-        <div className="testimonials__dots" role="tablist" aria-label="Testimonial page">
+        <div
+          className="testimonials__dots"
+          role="tablist"
+          aria-label="Testimonial pages"
+        >
+
           {pages.map((_, i) => (
             <button
               key={i}
-              className={`testimonials__dot${i === page ? ' testimonials__dot--active' : ''}`}
-              onClick={() => setPage(i)}
+              className={`
+                testimonials__dot
+                ${i === page
+                  ? 'testimonials__dot--active'
+                  : ''}
+              `}
+              onClick={() =>
+                goTo(
+                  i,
+                  i > page ? 'next' : 'prev'
+                )
+              }
               role="tab"
               aria-selected={i === page}
               aria-label={`Testimonials page ${i + 1}`}
             />
           ))}
+
         </div>
+
       </div>
+
     </section>
   )
 }

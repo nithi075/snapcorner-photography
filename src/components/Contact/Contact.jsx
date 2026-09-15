@@ -6,10 +6,11 @@ export default function Contact() {
     <section className="contact" id="contact" aria-labelledby="contact-heading">
 
       <div className="contact__hero">
+
         <div className="contact__hero-img-wrap">
           <img
             src={contactImg}
-            alt="Srimathi Photography Contact Banner"
+            alt="SnapCorner Photography Vellore"
             loading="lazy"
             className="contact__hero-img"
           />
@@ -18,23 +19,30 @@ export default function Contact() {
         <div className="contact__hero-overlay" aria-hidden="true" />
 
         <div className="contact__hero-content">
+
+          <span className="section-label">
+            SnapCorner Photography
+          </span>
+
           <h2 className="contact__heading" id="contact-heading">
-            Let's Connect
+            Let's Capture Your Story
           </h2>
 
           <p className="contact__subtext">
-            Every beautiful story deserves to be captured. Let's create
-            timeless memories together.
+            From Kaadhal to Kalyanam, every emotion deserves to be
+            remembered. Let's create beautiful, timeless frames together.
           </p>
 
           <a
-            href="#"
+            href="tel:+919080605443"
             className="btn btn-light"
           >
-            Get in Touch
+            Call Now
           </a>
+
         </div>
       </div>
+
     </section>
   )
 }

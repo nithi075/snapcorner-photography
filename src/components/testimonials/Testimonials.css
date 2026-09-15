@@ -1,5 +1,5 @@
 /* =============================================
-   Testimonials.css
+   Testimonials
    ============================================= */
 
 .testimonials {
@@ -13,52 +13,126 @@
   text-align: center;
 }
 
-/* ---- Grid of 3 cards ---- */
-.testimonials__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--sp-8);
+/* =============================================
+   Heading
+   ============================================= */
+
+.testimonials__heading {
+  font-family: var(--font-display);
+  font-size: var(--fs-4xl);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--color-dark);
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+
+/* =============================================
+   Testimonials Row
+   ============================================= */
+
+.testimonials__row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
   margin-top: var(--sp-10);
 }
 
-/* ---- Card ---- */
+
+/* =============================================
+   Grid of 3 Cards
+   ============================================= */
+
+.testimonials__grid {
+  flex: 1;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-8);
+}
+
+
+/* =============================================
+   Testimonial Card
+   ============================================= */
+
 .testimonial-card {
   background: var(--color-white);
   padding: var(--sp-8) var(--sp-6);
+
   text-align: left;
   position: relative;
-  transition: box-shadow var(--transition-base);
+
+  border: 1px solid rgba(0, 0, 0, 0.04);
+
+  transition:
+    box-shadow var(--transition-base),
+    transform var(--transition-base);
+
   animation: cardFadeIn 0.4s ease both;
 }
 
 @keyframes cardFadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .testimonial-card:hover {
-  box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07);
+  transform: translateY(-3px);
 }
+
+
+/* =============================================
+   Quote
+   ============================================= */
 
 .testimonial-card__quote {
   font-family: var(--font-display);
   font-size: 4rem;
+  font-weight: 400;
   line-height: 0.8;
+
   color: var(--color-gold);
+
   display: block;
   margin-bottom: var(--sp-4);
+
   font-style: italic;
 }
 
+
+/* =============================================
+   Review Body
+   ============================================= */
+
 .testimonial-card__body {
   font-family: var(--font-display);
+
   font-size: var(--fs-lg);
   font-weight: 300;
   font-style: italic;
+
   line-height: 1.7;
+
   color: var(--color-mid-gray);
+
   margin-bottom: var(--sp-6);
 }
+
+
+/* =============================================
+   Card Footer
+   ============================================= */
 
 .testimonial-card__footer {
   padding-top: var(--sp-4);
@@ -67,29 +141,82 @@
 
 .testimonial-card__couple {
   font-family: var(--font-ui);
+
   font-size: var(--fs-xs);
   font-weight: 600;
+
   letter-spacing: 0.14em;
   text-transform: uppercase;
+
   color: var(--color-dark);
 }
 
-/* ---- Page dots ---- */
+
+/* =============================================
+   Navigation Arrows
+   ============================================= */
+
+.testimonials__arrow {
+  flex-shrink: 0;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--color-border);
+
+  color: var(--color-dark);
+
+  font-family: var(--font-ui);
+  font-size: 1.1rem;
+
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    border-color var(--transition-base);
+
+  cursor: pointer;
+}
+
+.testimonials__arrow:hover {
+  background: var(--color-dark);
+  color: var(--color-white);
+  border-color: var(--color-dark);
+}
+
+
+/* =============================================
+   Page Dots
+   ============================================= */
+
 .testimonials__dots {
   display: flex;
   justify-content: center;
+  align-items: center;
+
   gap: var(--sp-3);
+
   margin-top: var(--sp-10);
 }
 
 .testimonials__dot {
   width: 8px;
   height: 8px;
+
   border-radius: 50%;
+
   background: var(--color-border);
+
   border: none;
+
   cursor: pointer;
-  transition: background var(--transition-base), transform var(--transition-base);
+
+  transition:
+    background var(--transition-base),
+    transform var(--transition-base);
 }
 
 .testimonials__dot--active {
@@ -101,8 +228,25 @@
   background: var(--color-gold);
 }
 
-/* ---- Responsive ---- */
+
+/* =============================================
+   Responsive — Tablet
+   ============================================= */
+
 @media (max-width: 900px) {
+
+  .testimonials {
+    padding: var(--sp-20) var(--sp-6);
+  }
+
+  .testimonials__heading {
+    font-size: var(--fs-3xl);
+  }
+
+  .testimonials__row {
+    gap: var(--sp-4);
+  }
+
   .testimonials__grid {
     grid-template-columns: 1fr 1fr;
     gap: var(--sp-6);
@@ -113,19 +257,70 @@
     max-width: 420px;
     margin: 0 auto;
   }
+
 }
 
+
+/* =============================================
+   Responsive — Mobile
+   ============================================= */
+
 @media (max-width: 600px) {
+
   .testimonials {
     padding: var(--sp-16) var(--sp-5);
   }
 
+  .testimonials__heading {
+    font-size: var(--fs-2xl);
+    line-height: 1.2;
+  }
+
+  .testimonials__row {
+    gap: var(--sp-2);
+  }
+
   .testimonials__grid {
     grid-template-columns: 1fr;
+    gap: var(--sp-5);
   }
 
   .testimonials__grid .testimonial-card:last-child {
     grid-column: auto;
     max-width: none;
   }
+
+  .testimonial-card {
+    padding: var(--sp-6) var(--sp-5);
+  }
+
+  .testimonial-card__body {
+    font-size: var(--fs-md);
+    line-height: 1.65;
+  }
+
+  .testimonials__arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+}
+
+
+/* =============================================
+   Small Mobile
+   ============================================= */
+
+@media (max-width: 400px) {
+
+  .testimonials__heading {
+    font-size: 1.6rem;
+  }
+
+  .testimonials__arrow {
+    width: 32px;
+    height: 32px;
+  }
+
 }
